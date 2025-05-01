@@ -27,14 +27,31 @@ export class PedidosController {
     return this.pedidosService.findAll();
   }
 
-  @Get('status/filter')
-  findByStatus(@Query('status') status: 'Em preparo' | 'Pronto' | 'Entregue') {
+  // ✅ Rota com filtro dinâmico por status (opcional)
+  @Get('status')
+  findByStatus(@Query('status') status: string) {
     return this.pedidosService.findByStatus(status);
   }
 
+  // ✅ Rotas específicas para status fixos
+  @Get('status/em-preparo')
+  findEmPreparo() {
+    return this.pedidosService.findByStatus('Em preparo');
+  }
+
+  @Get('status/pronto')
+  findProntos() {
+    return this.pedidosService.findByStatus('Pronto');
+  }
+
+  @Get('status/entregue')
+  findEntregues() {
+    return this.pedidosService.findByStatus('Entregue');
+  }
+
   @Patch(':id/status')
-  updateStatus(@Param('id') id: string, @Body() dto: UpdateStatusDto) {
-    return this.pedidosService.updateStatus(+id, dto);
+  updateStatus(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateStatusDto) {
+    return this.pedidosService.updateStatus(id, dto);
   }
 
   @Delete(':id')

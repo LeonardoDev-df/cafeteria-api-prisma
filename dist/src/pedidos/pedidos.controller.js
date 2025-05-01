@@ -31,8 +31,17 @@ let PedidosController = class PedidosController {
     findByStatus(status) {
         return this.pedidosService.findByStatus(status);
     }
+    findEmPreparo() {
+        return this.pedidosService.findByStatus('Em preparo');
+    }
+    findProntos() {
+        return this.pedidosService.findByStatus('Pronto');
+    }
+    findEntregues() {
+        return this.pedidosService.findByStatus('Entregue');
+    }
     updateStatus(id, dto) {
-        return this.pedidosService.updateStatus(+id, dto);
+        return this.pedidosService.updateStatus(id, dto);
     }
     delete(id) {
         return this.pedidosService.delete(id);
@@ -53,18 +62,36 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PedidosController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)('status/filter'),
+    (0, common_1.Get)('status'),
     __param(0, (0, common_1.Query)('status')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PedidosController.prototype, "findByStatus", null);
 __decorate([
+    (0, common_1.Get)('status/em-preparo'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PedidosController.prototype, "findEmPreparo", null);
+__decorate([
+    (0, common_1.Get)('status/pronto'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PedidosController.prototype, "findProntos", null);
+__decorate([
+    (0, common_1.Get)('status/entregue'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PedidosController.prototype, "findEntregues", null);
+__decorate([
     (0, common_1.Patch)(':id/status'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_status_dto_1.UpdateStatusDto]),
+    __metadata("design:paramtypes", [Number, update_status_dto_1.UpdateStatusDto]),
     __metadata("design:returntype", void 0)
 ], PedidosController.prototype, "updateStatus", null);
 __decorate([

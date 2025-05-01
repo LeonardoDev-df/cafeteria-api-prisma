@@ -50,9 +50,14 @@ A API estará disponível em http://localhost:3000.
 Método	Endpoint	Descrição
 POST	http://localhost:3000/pedidos	Cria um novo pedido
 GET	http://localhost:3000/pedidos	Retorna todos os pedidos
-GET	http://localhost:3000/pedidos/status/filter	Filtra pedidos por status
 PATCH	http://localhost:3000/pedidos/:id/status	Atualiza o status de um pedido
 DELETE	http://localhost:3000/pedidos/:id	Deleta um pedido pelo ID
+
+Método	Rota	Descrição Status
+GET	http://localhost:3000/pedidos/status	Filtro dinâmico via ?status=
+GET	http://localhost:3000/pedidos/status/em-preparo	Lista só os "Em preparo"
+GET	http://localhost:3000/pedidos/status/pronto	Lista só os "Pronto"
+GET	http://localhost:3000/pedidos/status/entregue	Lista só os "Entregue"
 
 Exemplo de payload para criar pedido (POST /pedidos)
 
@@ -70,6 +75,10 @@ Exemplo para atualizar status (PATCH /pedidos/3/status)
 {
   "status": "Pronto"
 }
+{
+  "status": "Entregue"
+}
+
 
 🧪 Testes
 
