@@ -31,12 +31,14 @@ cd seu-projeto
 
 Instale as dependências
 
-bash
 npm install
 
 Configure o Prisma e o banco de dados
 
+npm install
+npx prisma generate
 npx prisma migrate dev --name init
+
 
 Rode a aplicação
 
