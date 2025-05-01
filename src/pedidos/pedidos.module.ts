@@ -1,12 +1,13 @@
 // pedidos.module.ts
 import { Module } from '@nestjs/common';
-import { PedidosService } from './pedidos.service';
 import { PedidosController } from './pedidos.controller';
-import { PrismaModule } from '../../prisma/prisma.module'; // ajuste o caminho
+import { PedidosService } from './pedidos.service';
+import { PrismaModule } from '../../prisma/prisma.module'; // Módulo responsável pelo PrismaService
 
 @Module({
   imports: [PrismaModule],
-  providers: [PedidosService],
   controllers: [PedidosController],
+  providers: [PedidosService],
+  exports: [PedidosService], // opcional, útil se outro módulo precisar usar esse service
 })
 export class PedidosModule {}

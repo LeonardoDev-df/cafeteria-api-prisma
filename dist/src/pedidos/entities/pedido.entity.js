@@ -25,15 +25,15 @@ __decorate([
     __metadata("design:type", Number)
 ], Pedido.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: false }),
     __metadata("design:type", String)
 ], Pedido.prototype, "cliente", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: false }),
     __metadata("design:type", String)
 ], Pedido.prototype, "item", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: 'int', nullable: false }),
     __metadata("design:type", Number)
 ], Pedido.prototype, "quantidade", void 0);
 __decorate([
@@ -41,7 +41,11 @@ __decorate([
     __metadata("design:type", String)
 ], Pedido.prototype, "observacoes", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: 'Em preparo' }),
+    (0, typeorm_1.Column)({
+        type: 'enum',
+        enum: ['Em preparo', 'Pronto', 'Entregue'],
+        default: 'Em preparo',
+    }),
     __metadata("design:type", String)
 ], Pedido.prototype, "status", void 0);
 exports.Pedido = Pedido = __decorate([

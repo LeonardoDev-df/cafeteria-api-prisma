@@ -8,6 +8,9 @@ import {
   Query,
   Delete,
   ParseIntPipe,
+  NotFoundException,
+  BadRequestException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { PedidosService } from './pedidos.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
@@ -18,44 +21,82 @@ export class PedidosController {
   constructor(private readonly pedidosService: PedidosService) {}
 
   @Post()
-  create(@Body() dto: CreatePedidoDto) {
-    return this.pedidosService.create(dto);
+  async create(@Body() dto: CreatePedidoDto) {
+    try {
+      return await this.pedidosService.create(dto);
+    } catch (error) {
+      throw new BadRequestException('Erro ao criar pedido: ' + error.message);
+    }
   }
 
   @Get()
-  findAll() {
-    return this.pedidosService.findAll();
+  async findAll() {
+    try {
+      return await this.pedidosService.findAll();
+    } catch (error) {
+      throw new InternalServerErrorException('Erro ao buscar pedidos');
+    }
   }
 
-  // ✅ Rota com filtro dinâmico por status (opcional)
   @Get('status')
-  findByStatus(@Query('status') status: string) {
-    return this.pedidosService.findByStatus(status);
+  async findByStatus(@Query('status') status: string) {
+    try {
+      return await this.pedidosService.findByStatus(status);
+    } catch (error) {
+      throw new BadRequestException('Erro ao filtrar pedidos por status');
+    }
   }
 
-  // ✅ Rotas específicas para status fixos
   @Get('status/em-preparo')
-  findEmPreparo() {
-    return this.pedidosService.findByStatus('Em preparo');
+  async findEmPreparo() {
+    try {
+      return await this.pedidosService.findByStatus('Em preparo');
+    } catch (error) {
+      throw new InternalServerErrorException('Erro ao buscar pedidos em preparo');
+    }
   }
 
   @Get('status/pronto')
-  findProntos() {
-    return this.pedidosService.findByStatus('Pronto');
+  async findProntos() {
+    try {
+      return await this.pedidosService.findByStatus('Pronto');
+    } catch (error) {
+      throw new InternalServerErrorException('Erro ao buscar pedidos prontos');
+    }
   }
 
   @Get('status/entregue')
-  findEntregues() {
-    return this.pedidosService.findByStatus('Entregue');
+  async findEntregues() {
+    try {
+      return await this.pedidosService.findByStatus('Entregue');
+    } catch (error) {
+      throw new InternalServerErrorException('Erro ao buscar pedidos entregues');
+    }
   }
 
   @Patch(':id/status')
-  updateStatus(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateStatusDto) {
-    return this.pedidosService.updateStatus(id, dto);
+  async updateStatus(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateStatusDto,
+  ) {
+    try {
+      const pedidoAtualizado = await this.pedidosService.updateStatus(id, dto);
+      if (!pedidoAtualizado) {
+        throw new NotFoundException(`Pedido com ID ${id} não encontrado`);
+      }
+      return pedidoAtualizado;
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new BadRequestException('Erro ao atualizar status do pedido');
+    }
   }
 
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id: number) {
-    return this.pedidosService.delete(id);
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    try {
+      return await this.pedidosService.delete(id);
+    } catch (error) {
+      throw new NotFoundException(`Erro ao deletar pedido com ID ${id}`);
+    }
   }
 }

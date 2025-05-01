@@ -5,18 +5,22 @@ export class Pedido {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: false })
   cliente: string;
 
-  @Column()
+  @Column({ nullable: false })
   item: string;
 
-  @Column()
+  @Column({ type: 'int', nullable: false })
   quantidade: number;
 
   @Column({ nullable: true })
   observacoes: string;
 
-  @Column({ default: 'Em preparo' })
+  @Column({
+    type: 'enum',
+    enum: ['Em preparo', 'Pronto', 'Entregue'],
+    default: 'Em preparo',
+  })
   status: 'Em preparo' | 'Pronto' | 'Entregue';
 }

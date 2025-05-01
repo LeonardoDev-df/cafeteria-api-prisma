@@ -21,36 +21,65 @@ let PedidosService = class PedidosService {
         if (!dto.item || dto.item.trim() === '') {
             throw new common_1.BadRequestException('O campo "item" é obrigatório.');
         }
-        return this.prisma.pedido.create({
-            data: dto,
-        });
+        try {
+            return await this.prisma.pedido.create({
+                data: dto,
+            });
+        }
+        catch (error) {
+            throw new common_1.BadRequestException('Erro ao criar o pedido.');
+        }
     }
-    findAll() {
-        return this.prisma.pedido.findMany();
+    async findAll() {
+        try {
+            return await this.prisma.pedido.findMany();
+        }
+        catch (error) {
+            throw new common_1.BadRequestException('Erro ao buscar pedidos.');
+        }
+    }
+    async findByStatus(status) {
+        const allowedStatuses = ['Em preparo', 'Pronto', 'Entregue'];
+        if (!allowedStatuses.includes(status)) {
+            throw new common_1.BadRequestException(`Status "${status}" é inválido.`);
+        }
+        try {
+            return await this.prisma.pedido.findMany({
+                where: { status },
+            });
+        }
+        catch (error) {
+            throw new common_1.BadRequestException('Erro ao buscar pedidos por status.');
+        }
     }
     async updateStatus(id, dto) {
         const pedido = await this.prisma.pedido.findUnique({ where: { id } });
         if (!pedido) {
             throw new common_1.NotFoundException(`Pedido com id ${id} não encontrado.`);
         }
-        return this.prisma.pedido.update({
-            where: { id },
-            data: { status: dto.status },
-        });
-    }
-    findByStatus(status) {
-        return this.prisma.pedido.findMany({
-            where: { status },
-        });
+        try {
+            return await this.prisma.pedido.update({
+                where: { id },
+                data: { status: dto.status },
+            });
+        }
+        catch (error) {
+            throw new common_1.BadRequestException('Erro ao atualizar o status do pedido.');
+        }
     }
     async delete(id) {
         const pedido = await this.prisma.pedido.findUnique({ where: { id } });
         if (!pedido) {
             throw new common_1.NotFoundException(`Pedido com id ${id} não encontrado.`);
         }
-        return this.prisma.pedido.delete({
-            where: { id },
-        });
+        try {
+            return await this.prisma.pedido.delete({
+                where: { id },
+            });
+        }
+        catch (error) {
+            throw new common_1.BadRequestException('Erro ao deletar o pedido.');
+        }
     }
 };
 exports.PedidosService = PedidosService;

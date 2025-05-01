@@ -22,29 +22,75 @@ let PedidosController = class PedidosController {
     constructor(pedidosService) {
         this.pedidosService = pedidosService;
     }
-    create(dto) {
-        return this.pedidosService.create(dto);
+    async create(dto) {
+        try {
+            return await this.pedidosService.create(dto);
+        }
+        catch (error) {
+            throw new common_1.BadRequestException('Erro ao criar pedido: ' + error.message);
+        }
     }
-    findAll() {
-        return this.pedidosService.findAll();
+    async findAll() {
+        try {
+            return await this.pedidosService.findAll();
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException('Erro ao buscar pedidos');
+        }
     }
-    findByStatus(status) {
-        return this.pedidosService.findByStatus(status);
+    async findByStatus(status) {
+        try {
+            return await this.pedidosService.findByStatus(status);
+        }
+        catch (error) {
+            throw new common_1.BadRequestException('Erro ao filtrar pedidos por status');
+        }
     }
-    findEmPreparo() {
-        return this.pedidosService.findByStatus('Em preparo');
+    async findEmPreparo() {
+        try {
+            return await this.pedidosService.findByStatus('Em preparo');
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException('Erro ao buscar pedidos em preparo');
+        }
     }
-    findProntos() {
-        return this.pedidosService.findByStatus('Pronto');
+    async findProntos() {
+        try {
+            return await this.pedidosService.findByStatus('Pronto');
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException('Erro ao buscar pedidos prontos');
+        }
     }
-    findEntregues() {
-        return this.pedidosService.findByStatus('Entregue');
+    async findEntregues() {
+        try {
+            return await this.pedidosService.findByStatus('Entregue');
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException('Erro ao buscar pedidos entregues');
+        }
     }
-    updateStatus(id, dto) {
-        return this.pedidosService.updateStatus(id, dto);
+    async updateStatus(id, dto) {
+        try {
+            const pedidoAtualizado = await this.pedidosService.updateStatus(id, dto);
+            if (!pedidoAtualizado) {
+                throw new common_1.NotFoundException(`Pedido com ID ${id} não encontrado`);
+            }
+            return pedidoAtualizado;
+        }
+        catch (error) {
+            if (error instanceof common_1.NotFoundException)
+                throw error;
+            throw new common_1.BadRequestException('Erro ao atualizar status do pedido');
+        }
     }
-    delete(id) {
-        return this.pedidosService.delete(id);
+    async delete(id) {
+        try {
+            return await this.pedidosService.delete(id);
+        }
+        catch (error) {
+            throw new common_1.NotFoundException(`Erro ao deletar pedido com ID ${id}`);
+        }
     }
 };
 exports.PedidosController = PedidosController;
@@ -53,38 +99,38 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_pedido_dto_1.CreatePedidoDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PedidosController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PedidosController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)('status'),
     __param(0, (0, common_1.Query)('status')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PedidosController.prototype, "findByStatus", null);
 __decorate([
     (0, common_1.Get)('status/em-preparo'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PedidosController.prototype, "findEmPreparo", null);
 __decorate([
     (0, common_1.Get)('status/pronto'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PedidosController.prototype, "findProntos", null);
 __decorate([
     (0, common_1.Get)('status/entregue'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PedidosController.prototype, "findEntregues", null);
 __decorate([
     (0, common_1.Patch)(':id/status'),
@@ -92,14 +138,14 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, update_status_dto_1.UpdateStatusDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PedidosController.prototype, "updateStatus", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PedidosController.prototype, "delete", null);
 exports.PedidosController = PedidosController = __decorate([
     (0, common_1.Controller)('pedidos'),

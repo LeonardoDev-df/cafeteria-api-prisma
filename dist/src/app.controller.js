@@ -18,7 +18,13 @@ let AppController = class AppController {
         this.appService = appService;
     }
     getHello() {
-        return this.appService.getHello();
+        try {
+            return this.appService.getHello();
+        }
+        catch (error) {
+            console.error('Erro em getHello:', error);
+            throw new common_1.InternalServerErrorException('Erro interno ao buscar mensagem.');
+        }
     }
 };
 exports.AppController = AppController;

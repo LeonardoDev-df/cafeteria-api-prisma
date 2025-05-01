@@ -13,7 +13,16 @@ export declare class PedidosService {
         id: number;
         criadoEm: Date;
     }>;
-    findAll(): import(".prisma/client").Prisma.PrismaPromise<{
+    findAll(): Promise<{
+        cliente: string;
+        item: string;
+        quantidade: number;
+        observacoes: string | null;
+        status: string;
+        id: number;
+        criadoEm: Date;
+    }[]>;
+    findByStatus(status: string): Promise<{
         cliente: string;
         item: string;
         quantidade: number;
@@ -31,15 +40,6 @@ export declare class PedidosService {
         id: number;
         criadoEm: Date;
     }>;
-    findByStatus(status: string): import(".prisma/client").Prisma.PrismaPromise<{
-        cliente: string;
-        item: string;
-        quantidade: number;
-        observacoes: string | null;
-        status: string;
-        id: number;
-        criadoEm: Date;
-    }[]>;
     delete(id: number): Promise<{
         cliente: string;
         item: string;

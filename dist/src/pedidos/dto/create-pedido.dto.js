@@ -19,20 +19,23 @@ class CreatePedidoDto {
 }
 exports.CreatePedidoDto = CreatePedidoDto;
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)({ message: 'O campo "cliente" deve ser uma string.' }),
+    (0, class_validator_1.IsNotEmpty)({ message: 'O campo "cliente" não pode estar vazio.' }),
     __metadata("design:type", String)
 ], CreatePedidoDto.prototype, "cliente", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)({ message: 'O campo "item" deve ser uma string.' }),
+    (0, class_validator_1.IsNotEmpty)({ message: 'O campo "item" não pode estar vazio.' }),
     __metadata("design:type", String)
 ], CreatePedidoDto.prototype, "item", void 0);
 __decorate([
-    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.IsInt)({ message: 'O campo "quantidade" deve ser um número inteiro.' }),
+    (0, class_validator_1.Min)(1, { message: 'O campo "quantidade" deve ser no mínimo 1.' }),
     __metadata("design:type", Number)
 ], CreatePedidoDto.prototype, "quantidade", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)({ message: 'O campo "observacoes", se fornecido, deve ser uma string.' }),
     __metadata("design:type", String)
 ], CreatePedidoDto.prototype, "observacoes", void 0);
 //# sourceMappingURL=create-pedido.dto.js.map

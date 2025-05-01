@@ -17,6 +17,9 @@ class UpdateStatusDto {
 exports.UpdateStatusDto = UpdateStatusDto;
 __decorate([
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsIn)(['Em preparo', 'Pronto', 'Entregue'], {
+        message: 'Status deve ser "Em preparo", "Pronto" ou "Entregue".',
+    }),
     __metadata("design:type", String)
 ], UpdateStatusDto.prototype, "status", void 0);
 //# sourceMappingURL=update-status.dto.js.map
