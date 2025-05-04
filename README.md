@@ -97,7 +97,5 @@ Este projeto é licenciado sob a licença MIT. Veja mais em LICENSE.
 📬 Contato
 Em caso de dúvidas ou sugestões, fique à vontade para entrar em contato.
 
-nginx
-
-Se quiser, posso adaptar esse README com seu nome de repositório e GitHub. Deseja isso?
-
+✨ Autor
+Desenvolvido por Leonardo Lopes Borges 🚀
